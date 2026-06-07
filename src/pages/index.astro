@@ -1,17 +1,848 @@
 ---
-
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy 36th Birthday, 猿ちゃん! 🎂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --green-50: #f0fdf4;
+        --green-100: #dcfce7;
+        --green-200: #bbf7d0;
+        --green-400: #4ade80;
+        --green-500: #22c55e;
+        --green-600: #16a34a;
+        --green-700: #15803d;
+        --green-800: #166534;
+        --green-900: #14532d;
+        --gold: #d97706;
+        --gold-light: #fef3c7;
+        --cream: #fefce8;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--green-50);
+        color: #1a1a1a;
+        overflow-x: hidden;
+      }
+
+      /* ---- CONFETTI ---- */
+      .confetti-container {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        opacity: 0;
+        animation: confettiFall linear infinite;
+      }
+      @keyframes confettiFall {
+        0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+      }
+
+      /* ---- FLOATING EMOJIS ---- */
+      .floaters {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .floater {
+        position: absolute;
+        bottom: -60px;
+        font-size: 2rem;
+        animation: floatUp linear infinite;
+        opacity: 0;
+      }
+      @keyframes floatUp {
+        0%   { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+        100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+      }
+
+      /* ---- HERO ---- */
+      .hero {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(160deg, var(--green-800) 0%, var(--green-600) 50%, var(--green-500) 100%);
+        overflow: hidden;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 70%);
+      }
+      .hero-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0.4rem 1.2rem;
+        border-radius: 100px;
+        margin-bottom: 1.5rem;
+        backdrop-filter: blur(4px);
+      }
+      .hero-number {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(7rem, 20vw, 14rem);
+        font-weight: 700;
+        color: white;
+        line-height: 1;
+        text-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        letter-spacing: -0.02em;
+      }
+      .hero-sub {
+        font-family: 'Noto Serif SC', serif;
+        font-size: clamp(1.4rem, 4vw, 2.5rem);
+        color: var(--green-100);
+        margin-top: 0.5rem;
+        letter-spacing: 0.05em;
+      }
+      .hero-name {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-style: italic;
+        color: white;
+        margin-top: 0.75rem;
+      }
+      .hero-jp {
+        font-size: clamp(1.1rem, 3vw, 1.8rem);
+        color: var(--green-200);
+        margin-top: 0.5rem;
+        font-family: 'Noto Serif SC', serif;
+      }
+      .hero-from {
+        margin-top: 2rem;
+        color: rgba(255,255,255,0.7);
+        font-size: 1rem;
+        font-style: italic;
+      }
+      .hero-from strong {
+        color: white;
+        font-style: normal;
+      }
+      .scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.6);
+        font-size: 0.85rem;
+        animation: bounce 2s ease infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .scroll-hint svg { width: 20px; height: 20px; }
+      @keyframes bounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50%       { transform: translateX(-50%) translateY(6px); }
+      }
+
+      /* ---- SECTION WRAPPER ---- */
+      .section {
+        position: relative;
+        z-index: 1;
+        padding: 5rem 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .section-label {
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--green-600);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 700;
+        color: var(--green-900);
+        margin-bottom: 0.5rem;
+      }
+      .section-title-jp {
+        font-family: 'Noto Serif SC', serif;
+        font-size: 1.1rem;
+        color: var(--green-600);
+        margin-bottom: 2.5rem;
+      }
+      .divider {
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--green-500), var(--green-300));
+        border-radius: 2px;
+        margin: 1rem 0 2.5rem;
+      }
+
+      /* ---- FUN FACTS ---- */
+      .facts-bg {
+        background: white;
+        border-bottom: 1px solid var(--green-100);
+      }
+      .facts-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.5rem;
+      }
+      .fact-card {
+        background: var(--green-50);
+        border: 1px solid var(--green-200);
+        border-radius: 16px;
+        padding: 1.75rem 1.5rem;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+      .fact-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(22,163,74,0.12);
+      }
+      .fact-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+      .fact-title {
+        font-weight: 600;
+        color: var(--green-800);
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+      }
+      .fact-desc {
+        font-size: 0.82rem;
+        color: #6b7280;
+        line-height: 1.5;
+      }
+
+      /* ---- ADVENTURE BLOCKS ---- */
+      .adventure {
+        margin-bottom: 5rem;
+      }
+      .adventure-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .adventure-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: var(--green-600);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        flex-shrink: 0;
+      }
+      .adventure-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--green-900);
+      }
+      .adventure-date {
+        font-size: 0.8rem;
+        color: var(--green-600);
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+      .adventure-desc {
+        margin-bottom: 1.5rem;
+        color: #374151;
+        line-height: 1.7;
+        font-size: 0.97rem;
+        max-width: 700px;
+      }
+
+      /* Photo grid layouts */
+      .photo-grid {
+        display: grid;
+        gap: 0.75rem;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .photo-grid.single { grid-template-columns: 1fr; max-width: 600px; }
+      .photo-grid.two   { grid-template-columns: 1fr 1fr; }
+      .photo-grid.three { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+      .photo-grid.three .photo-item:first-child { grid-row: span 2; }
+      .photo-grid.four  { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+      .photo-grid.five  { grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; }
+      .photo-grid.five .photo-item:first-child { grid-column: span 2; }
+      .photo-grid.six   { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; }
+
+      .photo-item {
+        overflow: hidden;
+        border-radius: 4px;
+        aspect-ratio: 4/3;
+        position: relative;
+        cursor: pointer;
+      }
+      .photo-item.tall { aspect-ratio: 3/4; }
+      .photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+        display: block;
+      }
+      .photo-item.nocrop img {
+        object-fit: contain;
+        background: #111;
+      }
+      .photo-item:hover img { transform: scale(1.04); }
+      .photo-caption {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        color: white;
+        font-size: 0.78rem;
+        padding: 1.5rem 0.75rem 0.6rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .photo-item:hover .photo-caption { opacity: 1; }
+
+      /* ---- LIGHTBOX ---- */
+      .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.92);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .lightbox.open { display: flex; }
+      .lightbox img {
+        max-width: 90vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 8px;
+        cursor: default;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 1.5rem; right: 1.5rem;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        line-height: 1;
+        background: rgba(255,255,255,0.1);
+        border: none;
+        width: 44px; height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ---- LOVE LETTER ---- */
+      .love-letter-bg {
+        background: linear-gradient(160deg, var(--green-900) 0%, var(--green-700) 100%);
+      }
+      .love-letter {
+        max-width: 720px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 5rem 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+      .love-letter-icon { font-size: 3rem; margin-bottom: 1.5rem; }
+      .love-letter h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        color: white;
+        margin-bottom: 2rem;
+      }
+      .love-letter p {
+        color: var(--green-100);
+        line-height: 1.9;
+        font-size: 1.05rem;
+        margin-bottom: 1.25rem;
+        text-align: left;
+      }
+      .love-letter .signature {
+        margin-top: 2.5rem;
+        color: var(--green-300);
+        font-style: italic;
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        text-align: right;
+      }
+
+      /* ---- FOOTER ---- */
+      footer {
+        background: var(--green-900);
+        color: var(--green-400);
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.85rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ---- RESPONSIVE ---- */
+      @media (max-width: 600px) {
+        .photo-grid.three { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+        .photo-grid.three .photo-item:first-child { grid-row: span 1; grid-column: span 2; }
+        .photo-grid.five  { grid-template-columns: 1fr 1fr; }
+        .photo-grid.five .photo-item:first-child { grid-column: span 2; }
+        .photo-grid.six   { grid-template-columns: 1fr 1fr; }
+        .photo-grid.four  { grid-template-columns: 1fr 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Confetti -->
+    <div class="confetti-container" id="confetti"></div>
+
+    <!-- Floating emojis -->
+    <div class="floaters" id="floaters"></div>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">June 7, 2026 &nbsp;·&nbsp; A Very Special Day</div>
+      <div class="hero-number">36</div>
+      <div class="hero-sub">生日快乐！&nbsp; お誕生日おめでとう！</div>
+      <div class="hero-name">Dianyi Liu &nbsp;·&nbsp; 刘甸邑</div>
+      <div class="hero-jp">猿ちゃん、大好き！</div>
+      <div class="hero-from">With all my love, from <strong>猿ちゃんのバナナ</strong> 🍌</div>
+      <div class="scroll-hint">
+        <span>scroll for memories</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- FUN FACTS -->
+    <div class="facts-bg">
+      <div class="section">
+        <div class="section-label">The Birthday Girl</div>
+        <div class="section-title">猿ちゃん, in a nutshell</div>
+        <div class="divider"></div>
+        <div class="facts-grid">
+          <div class="fact-card">
+            <div class="fact-icon">🔬</div>
+            <div class="fact-title">PhD Researcher</div>
+            <div class="fact-desc">Chlamydomonas algae specialist. Unlocking the secrets of single-celled life.</div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">👩‍🏫</div>
+            <div class="fact-title">Professor @ UMSL</div>
+            <div class="fact-desc">Teaching General Biology at Benton Hall 103. Inspiring the next generation.</div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🌿</div>
+            <div class="fact-title">Green Is Life</div>
+            <div class="fact-desc">Favorite color: green. Studies green things. Coincidence? We think not.</div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🐒</div>
+            <div class="fact-title">猿ちゃん</div>
+            <div class="fact-desc">Beloved nickname. Adventurous, playful, always up for something new.</div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">✈️</div>
+            <div class="fact-title">Co-Pilot</div>
+            <div class="fact-desc">Bravely sitting right seat while her banana flies her around the sky.</div>
+          </div>
+          <div class="fact-card">
+            <div class="fact-icon">🎯</div>
+            <div class="fact-title">Sharpshooter</div>
+            <div class="fact-desc">Impressive aim. Perfect grouping. Probably more accurate than her husband.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADVENTURES -->
+    <div class="section">
+      <div class="section-label">The Past Year</div>
+      <div class="section-title">Adventures Together</div>
+      <div class="section-title-jp">一緒の冒険 &nbsp;·&nbsp; 一起的冒险</div>
+      <div class="divider"></div>
+
+      <!-- UMSL -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🏫</div>
+          <div>
+            <div class="adventure-date">August 2025</div>
+            <div class="adventure-title">Professor Liu Takes Her Office</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          She got the job, moved into her office, and pointed proudly at her class schedule on the door.
+          BIOL1012 General Biology — Dr. Liu is officially in the building.
+        </p>
+        <div class="photo-grid single">
+          <div class="photo-item nocrop">
+            <img src="/PXL_20250809_180644865.jpg" alt="Dr. Dianyi at her UMSL office" loading="lazy" style="object-position: center top;" />
+            <div class="photo-caption">Pointing at her very own class schedule — BIOL1012!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANTELOPE CANYON -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🏜️</div>
+          <div>
+            <div class="adventure-date">May 2025</div>
+            <div class="adventure-title">Antelope Canyon & Horseshoe Bend</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          Page, Arizona. Slot canyon walls that look like they were sculpted by the universe itself,
+          and a horseshoe bend of the Colorado River that made everyone's jaw drop. She wore the green
+          bucket hat. Naturally.
+        </p>
+        <div class="photo-grid three">
+          <div class="photo-item">
+            <img src="/PXL_20250529_162438221.jpg" alt="Inside Antelope Canyon" loading="lazy" />
+            <div class="photo-caption">Inside Antelope Canyon</div>
+          </div>
+          <div class="photo-item">
+            <img src="/PXL_20250528_183504241.jpg" alt="Horseshoe Bend" loading="lazy" />
+            <div class="photo-caption">Horseshoe Bend viewpoint</div>
+          </div>
+          <div class="photo-item">
+            <img src="/PXL_20250526_215827850.jpg" alt="Antelope Canyon trip" loading="lazy" />
+            <div class="photo-caption">Desert adventures</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ST. LOUIS / ROAD TRIPS -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🌆</div>
+          <div>
+            <div class="adventure-date">Summer – Fall 2025</div>
+            <div class="adventure-title">Road Trips & Local Adventures</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          From the St. Louis Arch to a shooting range where she absolutely destroyed the target,
+          to date nights with ridiculously large sundaes, to hiking through fall foliage —
+          every season brought something new.
+        </p>
+        <div class="photo-grid four">
+          <div class="photo-item">
+            <img src="/PXL_20250803_194012734.jpg" alt="St. Louis Arch" loading="lazy" />
+            <div class="photo-caption">Gateway Arch, St. Louis</div>
+          </div>
+          <div class="photo-item">
+            <img src="/PXL_20250822_001102845.jpg" alt="Shooting range" loading="lazy" />
+            <div class="photo-caption">Sharpshooter mode activated</div>
+          </div>
+          <div class="photo-item">
+            <img src="/PXL_20250913_004121330.jpg" alt="Date night" loading="lazy" />
+            <div class="photo-caption">Date night — the sundae was enormous</div>
+          </div>
+          <div class="photo-item">
+            <img src="/PXL_20251122_195309345.jpg" alt="Fall hiking" loading="lazy" />
+            <div class="photo-caption">Fall foliage hike</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHINA / SHANGHAI -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🇨🇳</div>
+          <div>
+            <div class="adventure-date">December 2025 – January 2026</div>
+            <div class="adventure-title">回家 — Going Home to China</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          Christmas and New Year in China — Shanghai's Bund glowing at night, Nanjing Road in the winter haze,
+          family dinners with her parents, and getting a caricature painted of the two of them in a
+          Chinese shopping arcade. Home never looked more beautiful.
+        </p>
+        <div class="photo-grid six">
+          <div class="photo-item">
+            <img src="/MVIMG_20260108_182029.jpg" alt="Shanghai Oriental Pearl Tower at night" loading="lazy" />
+            <div class="photo-caption">Shanghai skyline at night</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260106_200953.jpg" alt="Shanghai Bund at night" loading="lazy" />
+            <div class="photo-caption">The Bund by night</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260106_162617.jpg" alt="Nanjing Road Shanghai" loading="lazy" />
+            <div class="photo-caption">Nanjing Road</div>
+          </div>
+          <div class="photo-item">
+            <img src="/IMG_20251226_140829.jpg" alt="Family dinner in China" loading="lazy" />
+            <div class="photo-caption">Family dinner in Beijing</div>
+          </div>
+          <div class="photo-item">
+            <img src="/IMG_20251227_201152.jpg" alt="Korean restaurant in China" loading="lazy" />
+            <div class="photo-caption">Celebratory dinner in China</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260104_230556.jpg" alt="Caricature portrait in China" loading="lazy" />
+            <div class="photo-caption">Our caricature portrait</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EAST COAST ROAD TRIP -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🏖️</div>
+          <div>
+            <div class="adventure-date">December 2024 – January 2026</div>
+            <div class="adventure-title">East Coast Road Trip</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          Hitting the coast, breathing in the ocean air, and eating well along the way.
+          Every road trip is better with your favorite co-pilot.
+        </p>
+        <div class="photo-grid two">
+          <div class="photo-item">
+            <img src="/PXL_20241228_192751093.jpg" alt="East Coast beach" loading="lazy" />
+            <div class="photo-caption">East Coast beach</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260131_152145.jpg" alt="Road trip stop" loading="lazy" />
+            <div class="photo-caption">Road trip pit stop</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLYING -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">✈️</div>
+          <div>
+            <div class="adventure-date">April – May 2026</div>
+            <div class="adventure-title">Up in the Air</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          When your husband is a pilot, you get a front-row seat to the skies.
+          She slips on the headset, scans the horizon, and makes the whole cockpit better.
+        </p>
+        <div class="photo-grid two">
+          <div class="photo-item">
+            <img src="/MVIMG_20260405_143004.jpg" alt="Flying together" loading="lazy" />
+            <div class="photo-caption">Flying together — she's a natural</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260509_142348.jpg" alt="At the airport" loading="lazy" />
+            <div class="photo-caption">Ready for the next flight</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JAPANESE CERTIFICATES -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">📜</div>
+          <div>
+            <div class="adventure-date">April 2026</div>
+            <div class="adventure-title">We Passed! 漢字検定 Certificates</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          Two nerds who study Japanese together, pass together. Holding their certificates in the hallway,
+          grinning like they just discovered a new species. (She probably did, too.)
+        </p>
+        <div class="photo-grid single">
+          <div class="photo-item">
+            <img src="/IMG_20260411_100636.jpg" alt="Japanese language certificates" loading="lazy" />
+            <div class="photo-caption">合格証書 — We passed!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHURCHILL DOWNS / LOUISVILLE -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🏇</div>
+          <div>
+            <div class="adventure-date">May 30–31, 2026</div>
+            <div class="adventure-title">Louisville Weekend</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          Churchill Downs and all that Louisville has to offer — natural history museums,
+          the world's largest baseball bat, and good company. She pointed at the giant bat
+          like she owned the whole city.
+        </p>
+        <div class="photo-grid two">
+          <div class="photo-item">
+            <img src="/MVIMG_20260530_155519.jpg" alt="Natural history museum Louisville" loading="lazy" />
+            <div class="photo-caption">Natural history museum — whale skeleton selfie</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260531_133055.jpg" alt="Louisville Slugger Museum" loading="lazy" />
+            <div class="photo-caption">Louisville Slugger Museum</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BIRTHDAY WEEKEND -->
+      <div class="adventure">
+        <div class="adventure-header">
+          <div class="adventure-icon">🎂</div>
+          <div>
+            <div class="adventure-date">June 6–7, 2026</div>
+            <div class="adventure-title">Birthday Weekend — Farm & Feast</div>
+          </div>
+        </div>
+        <p class="adventure-desc">
+          A farm homestead and a proper birthday feast to ring in 36. The same smile that's been lighting
+          up every photo in this collection — today it's all yours.
+        </p>
+        <div class="photo-grid two">
+          <div class="photo-item">
+            <img src="/MVIMG_20260525_120710.jpg" alt="Birthday weekend" loading="lazy" />
+            <div class="photo-caption">Birthday weekend begins</div>
+          </div>
+          <div class="photo-item">
+            <img src="/MVIMG_20260607_131208.jpg" alt="Birthday lunch" loading="lazy" style="object-position: center top;" />
+            <div class="photo-caption">Birthday lunch — she deserves every bite</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LOVE LETTER -->
+    <div class="love-letter-bg">
+      <div class="love-letter">
+        <div class="love-letter-icon">🍌</div>
+        <h2>A Note from Your Banana</h2>
+        <p>
+          猿ちゃん — 36 years ago today, the world got a whole lot better.
+          A girl from Beijing who would grow up to decode the mysteries of algae,
+          teach a generation of biology students, fly across oceans, hike through slot canyons,
+          ace a Japanese test, and somehow also put up with me.
+        </p>
+        <p>
+          This year alone we drove coasts, walked the streets of Shanghai in winter, watched the
+          Bund light up the river, had dinner with your family, squeezed into a cockpit together,
+          ate too much, laughed even more, and made memories that no lab experiment could ever
+          replicate.
+        </p>
+        <p>
+          You make every single adventure better just by being in it.
+          Here's to 36 — and to every year after this one, together.
+        </p>
+        <p>
+          生日快乐，刘甸邑。大好き。爱你。
+        </p>
+        <div class="signature">
+          — 猿ちゃんのバナナ 🍌
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>Made with love for 猿ちゃん's 36th birthday &nbsp;·&nbsp; June 7, 2026 &nbsp;·&nbsp; 刘甸邑 · 生日快乐</p>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightbox-close">×</button>
+      <img id="lightbox-img" src="" alt="" />
+    </div>
+
+    <script>
+      // --- Confetti ---
+      const colors = ['#22c55e','#4ade80','#86efac','#d97706','#fbbf24','#f9a8d4','#a78bfa'];
+      const confettiEl = document.getElementById('confetti');
+      for (let i = 0; i < 60; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.cssText = `
+          left: ${Math.random() * 100}%;
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          width: ${6 + Math.random() * 8}px;
+          height: ${6 + Math.random() * 8}px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+          animation-duration: ${4 + Math.random() * 8}s;
+          animation-delay: ${Math.random() * 10}s;
+        `;
+        confettiEl.appendChild(piece);
+      }
+
+      // --- Floating emojis ---
+      const emojis = ['🐒','🍌','🌿','🔬','🎂','✈️','💚','🍃'];
+      const floatersEl = document.getElementById('floaters');
+      for (let i = 0; i < 20; i++) {
+        const f = document.createElement('div');
+        f.className = 'floater';
+        f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        f.style.cssText = `
+          left: ${Math.random() * 100}%;
+          font-size: ${1.2 + Math.random() * 1.5}rem;
+          animation-duration: ${8 + Math.random() * 12}s;
+          animation-delay: ${Math.random() * 15}s;
+        `;
+        floatersEl.appendChild(f);
+      }
+
+      // --- Lightbox ---
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      document.querySelectorAll('.photo-item img').forEach(img => {
+        img.addEventListener('click', () => {
+          lightboxImg.src = img.src;
+          lightboxImg.alt = img.alt;
+          lightbox.classList.add('open');
+        });
+      });
+      document.getElementById('lightbox-close').addEventListener('click', () => {
+        lightbox.classList.remove('open');
+      });
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) lightbox.classList.remove('open');
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') lightbox.classList.remove('open');
+      });
+    </script>
+
+  </body>
 </html>
